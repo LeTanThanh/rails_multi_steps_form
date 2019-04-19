@@ -1,0 +1,37 @@
+<h3>Shipping Step</h3>
+
+<%= render "shared/error_messages", object: shipping if shipping.errors.any? %>
+
+<%= hidden_field_tag "current_step", "shipping" %>
+
+<div class="form-group">
+  <%= form.label :shipping_address , class: "control-label col-sm-2" %>
+  <div class="col-sm-10">
+    <%= form.text_field :shipping_address, class: "form-control" %>
+  </div>
+</div>
+
+<div class="form-group">
+  <%= form.label :shipping_day, class: "control-label col-sm-2" %>
+  <div class="col-sm-10">
+    <%= form.datetime_field :shipping_day, class: "form-control" %>
+  </div>
+</div>
+
+<div class="form-group">
+  <div class="col-sm-offset-2 col-sm-10">
+    <div class="row">
+      <div class="col-xs-6 text-left">
+        <div class="previous">
+          <%= form.submit "Previous Step", name: "pre_step", class: "btn btn-primary" %>
+        </div>
+      </div>
+
+      <div class="col-xs-6 text-right">   
+        <div class="next">
+          <%= form.submit "Next Step", name: "next_step", class: "btn btn-primary" %>
+        </div>
+      </div>
+    </div
+  </div>
+</div>

@@ -14,14 +14,28 @@ class ShippingsController < ApplicationController
   def edit; end
 
   def create
+    # @shipping = Shipping.new shipping_params
+    
+    # if @shipping.save
+    #   flash[:success] = "Shipping is created."
+    #   redirect_to @shipping
+    # else
+    #   flash.now[:danger] = "Shipping isn't created."
+    #   render :new
+    # end
+
     @shipping = Shipping.new shipping_params
 
-    if @shipping.save
-      flash[:success] = "Shipping is created."
-      redirect_to @shipping
-    else
-      flash.now[:danger] = "Shipping isn't created."
+    @shipping.current_step = params[:current_step]
+    if params[:next_step]
+      @shipping.move_next_step
+
       render :new
+    elsif params[:pre_step]
+      @shipping.move_pre_step
+      
+      render :new
+    elsif params[:commit]
     end
   end
 
