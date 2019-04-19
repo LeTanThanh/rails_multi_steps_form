@@ -14,21 +14,11 @@ class ShippingsController < ApplicationController
   def edit; end
 
   def create
-    # @shipping = Shipping.new shipping_params
-    
-    # if @shipping.save
-    #   flash[:success] = "Shipping is created."
-    #   redirect_to @shipping
-    # else
-    #   flash.now[:danger] = "Shipping isn't created."
-    #   render :new
-    # end
-
     @shipping = Shipping.new shipping_params
-
     @shipping.current_step = params[:current_step]
+
     if params[:next_step]
-      @shipping.move_next_step
+      @shipping.move_next_step if @shipping.valid?
 
       render :new
     elsif params[:pre_step]
@@ -36,6 +26,13 @@ class ShippingsController < ApplicationController
       
       render :new
     elsif params[:commit]
+      if @shipping.save
+        flash[:success] = "Shipping is created"
+        redirect_to @shipping
+      else
+        flash.now[:danger] = "Shipping isn't created"
+        render :new
+      end
     end
   end
 

@@ -1,3 +1,3 @@
 <%= form_for shipping, html: { class: "form-horizontal" } do |form| %>
-  <%= render "shippings/form_steps/#{shipping.current_step}_step", shipping: shipping, form: form %>
+  <%= render "shippings/form_steps/#{shipping.current_step || "receiver"}_step", shipping: shipping, form: form %>
 <% end %>
