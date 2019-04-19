@@ -1,37 +1,37 @@
-<%= form_with(model: shipping, local: true) do |form| %>
-  <% if shipping.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(shipping.errors.count, "error") %> prohibited this shipping from being saved:</h2>
+<%= form_for shipping, html: { class: "form-horizontal" } do |form| %>
+  <%= render "shared/error_messages", object: shipping if shipping.errors.any? %>
 
-      <ul>
-      <% shipping.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+  <div class="form-group">
+    <%= form.label :receiver_name, class: "control-label col-sm-2" %>
+    <div class="col-sm-10">
+      <%= form.text_field :receiver_name, class: "form-control" %>
     </div>
-  <% end %>
-
-  <div class="field">
-    <%= form.label :receiver_name %>
-    <%= form.text_field :receiver_name %>
   </div>
 
-  <div class="field">
-    <%= form.label :receiver_phone %>
-    <%= form.text_field :receiver_phone %>
+  <div class="form-group">
+    <%= form.label :receiver_phone, class: "control-label col-sm-2" %>
+    <div class="col-sm-10">
+      <%= form.text_field :receiver_phone, class: "form-control" %>
+    </div>
   </div>
 
-  <div class="field">
-    <%= form.label :shipping_address %>
-    <%= form.text_field :shipping_address %>
+  <div class="form-group">
+    <%= form.label :shipping_address , class: "control-label col-sm-2" %>
+    <div class="col-sm-10">
+      <%= form.text_field :shipping_address, class: "form-control" %>
+    </div>
   </div>
 
-  <div class="field">
-    <%= form.label :shipping_day %>
-    <%= form.datetime_select :shipping_day %>
+  <div class="form-group">
+    <%= form.label :shipping_day, class: "control-label col-sm-2" %>
+    <div class="col-sm-10">
+      <%= form.datetime_field :shipping_day, class: "form-control" %>
+    </div>
   </div>
 
-  <div class="actions">
-    <%= form.submit %>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <%= form.submit class: "btn btn-primary" %>
+    </div>
   </div>
 <% end %>

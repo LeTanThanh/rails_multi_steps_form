@@ -1,74 +1,59 @@
 class ShippingsController < ApplicationController
-  before_action :set_shipping, only: [:show, :edit, :update, :destroy]
+  before_action :load_shipping, only: %i|show edit update destroy|
 
-  # GET /shippings
-  # GET /shippings.json
   def index
     @shippings = Shipping.all
   end
 
-  # GET /shippings/1
-  # GET /shippings/1.json
-  def show
-  end
+  def show; end
 
-  # GET /shippings/new
   def new
     @shipping = Shipping.new
   end
 
-  # GET /shippings/1/edit
-  def edit
-  end
+  def edit; end
 
-  # POST /shippings
-  # POST /shippings.json
   def create
-    @shipping = Shipping.new(shipping_params)
+    @shipping = Shipping.new shipping_params
 
-    respond_to do |format|
-      if @shipping.save
-        format.html { redirect_to @shipping, notice: 'Shipping was successfully created.' }
-        format.json { render :show, status: :created, location: @shipping }
-      else
-        format.html { render :new }
-        format.json { render json: @shipping.errors, status: :unprocessable_entity }
-      end
+    if @shipping.save
+      flash[:success] = "Shipping is created."
+      redirect_to @shipping
+    else
+      flash.now[:danger] = "Shipping isn't created."
+      render :new
     end
   end
 
-  # PATCH/PUT /shippings/1
-  # PATCH/PUT /shippings/1.json
   def update
-    respond_to do |format|
-      if @shipping.update(shipping_params)
-        format.html { redirect_to @shipping, notice: 'Shipping was successfully updated.' }
-        format.json { render :show, status: :ok, location: @shipping }
-      else
-        format.html { render :edit }
-        format.json { render json: @shipping.errors, status: :unprocessable_entity }
-      end
+    if @shipping.update_attributes shipping_params
+      flash[:success] = "Shipping is updated."
+      redirect_to @shipping
+    else
+      flash.now[:danger] = "Shipping isn't updated."
+      render :edit
     end
   end
 
-  # DELETE /shippings/1
-  # DELETE /shippings/1.json
   def destroy
-    @shipping.destroy
-    respond_to do |format|
-      format.html { redirect_to shippings_url, notice: 'Shipping was successfully destroyed.' }
-      format.json { head :no_content }
+    if @shipping.destroy
+      flash[:success] = "Shipping is deleted."
+    else
+      flash[:danger] = "Shipping isn't deleted."
     end
+    redirect_to root_url
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_shipping
-      @shipping = Shipping.find(params[:id])
-    end
+  def load_shipping
+    @shipping = Shipping.find_by id: params[:id]
+    return if @shipping
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def shipping_params
-      params.require(:shipping).permit(:receiver_name, :receiver_phone, :shipping_address, :shipping_day)
-    end
+    flash[:warning] = "Shipping isn't found"
+    redirect_to root_url
+  end
+
+  def shipping_params
+    params.require(:shipping).permit :receiver_name, :receiver_phone, :shipping_address, :shipping_day
+  end
 end

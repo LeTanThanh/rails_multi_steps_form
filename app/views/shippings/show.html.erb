@@ -1,24 +1,25 @@
-<p id="notice"><%= notice %></p>
+<div class="container">
+  <h2>Shipping #<%= @shipping.id %></h1>
+  <p>Back to shippings <%= link_to "here", root_path %></p>
 
-<p>
-  <strong>Receiver name:</strong>
-  <%= @shipping.receiver_name %>
-</p>
-
-<p>
-  <strong>Receiver phone:</strong>
-  <%= @shipping.receiver_phone %>
-</p>
-
-<p>
-  <strong>Shipping address:</strong>
-  <%= @shipping.shipping_address %>
-</p>
-
-<p>
-  <strong>Shipping day:</strong>
-  <%= @shipping.shipping_day %>
-</p>
-
-<%= link_to 'Edit', edit_shipping_path(@shipping) %> |
-<%= link_to 'Back', shippings_path %>
+  <table class="table">
+    <tbody>
+      <tr>
+        <th>Receiver Name</th>
+        <td><%= @shipping.receiver_name %></td>
+      </tr>
+      <tr>
+        <th>Receiver Phone</th>
+        <td><%= @shipping.receiver_phone %></td>
+      </tr>
+      <tr>
+        <th>Shipping Address</th>
+        <td><%= @shipping.shipping_address %></td>
+      </tr>
+      <tr>
+        <th>Shipping Day</th>
+        <td><%= @shipping.shipping_day %></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
