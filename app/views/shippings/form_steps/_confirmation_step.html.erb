@@ -1,0 +1,46 @@
+<h3>Confirmation Step</h3>
+
+<%= render "shared/error_messages", object: shipping if shipping.errors.any? %>
+
+<div class="form-group">
+  <div class="col-sm-offset-2 col-sm-10">
+    <table class="table">
+      <tbody>
+        <tr>
+          <th>Receiver Name</th>
+          <td><%= "" %></td>
+        </tr>
+        <tr>
+          <th>Receiver Phone</th>
+          <td><%= "" %></td>
+        </tr>
+        <tr>
+          <th>Shipping Address</th>
+          <td><%= "" %></td>
+        </tr>
+        <tr>
+          <th>Shipping Day</th>
+          <td><%= "" %></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="form-group">
+  <div class="col-sm-offset-2 col-sm-10">
+    <div class="col-xs-6 text-left">
+      <div class="previous">
+        <button class="btn btn-primary">
+          Previous Step
+        </button>
+      </div>
+    </div>
+
+    <div class="col-xs-6 text-right">   
+      <div class="next">
+        <%= form.submit "Done", class: "btn btn-primary" %>
+      </div>
+    </div>
+  </div>
+</div>
