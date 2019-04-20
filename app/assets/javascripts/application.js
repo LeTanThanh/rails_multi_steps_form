@@ -16,3 +16,17 @@
 //= require jquery
 //= require bootstrap-sprockets
 //= require_tree .
+
+$( document ).on('turbolinks:load', function() {
+  $(document).on('click', '.js-button-next', function() {
+    var stepIndex = $(this).data('stepIndex');
+    $('.js-form-step').slideUp();
+    $('.js-form-step').eq(stepIndex + 1).slideDown();
+  });
+
+  $(document).on('click', '.js-button-pre', function() {
+    var stepIndex = $(this).data('stepIndex');
+    $('.js-form-step').slideUp();
+    $('.js-form-step').eq(stepIndex - 1).slideDown();
+  });
+});
