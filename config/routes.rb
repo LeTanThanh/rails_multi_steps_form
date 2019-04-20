@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
   root "shippings#index"
-  resources :shippings
+  resources :shippings do
+    collection do
+      post :validate_step
+    end
+  end
 end

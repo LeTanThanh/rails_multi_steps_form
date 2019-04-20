@@ -19,9 +19,36 @@
 
 $( document ).on('turbolinks:load', function() {
   $(document).on('click', '.js-button-next', function() {
+    var form = $(this).closest('.js-form-step');
     var stepIndex = $(this).data('stepIndex');
-    $('.js-form-step').slideUp();
-    $('.js-form-step').eq(stepIndex + 1).slideDown();
+    var data = {};
+
+    form.find('input').each(function(index) {
+      var name = $(this).attr('name');
+      var val = $(this).val();
+
+      data[name] = val;
+    });
+
+    $.ajax({
+      headers: {
+        'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+      },
+      url: '/shippings/validate_step',
+      method: 'POST',
+      dataType: 'JSON',
+      data: data,
+      success: function(response) {
+        if (response.valid) {
+          $('.js-form-step').slideUp();
+          $('.js-form-step').eq(stepIndex + 1).slideDown();
+
+          form.find('.js-error-messages').html("");
+        } else {
+          form.find('.js-error-messages').html(response.error_messages);
+        }
+      }
+    });
   });
 
   $(document).on('click', '.js-button-pre', function() {

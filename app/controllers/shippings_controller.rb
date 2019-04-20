@@ -11,8 +11,6 @@ class ShippingsController < ApplicationController
     @shipping = Shipping.new
   end
 
-  def edit; end
-
   def create
     @shipping = Shipping.new shipping_params
 
@@ -24,6 +22,8 @@ class ShippingsController < ApplicationController
       render :new
     end
   end
+
+  def edit; end
 
   def update
     if @shipping.update_attributes shipping_params
@@ -42,6 +42,30 @@ class ShippingsController < ApplicationController
       flash[:danger] = "Shipping isn't deleted."
     end
     redirect_to root_url
+  end
+
+  def validate_step
+    shipping = Shipping.new shipping_params
+    shipping.valid?
+
+    error_attrs = shipping_params.keys.map(&:to_sym).select do |attr|
+      shipping.errors[attr].any?
+    end
+    error_messages = error_attrs.map do |attr|
+      Shipping.human_attribute_name(attr) + " " + shipping.errors[attr].first
+    end
+
+    respond_to do |format|
+      format.js do
+        render json: {
+          valid: error_messages.empty?,
+          error_messages: render_to_string(
+            partial: "shared/error_messages",
+            locals: { error_messages: error_messages }
+          )
+        }
+      end
+    end
   end
 
   private
