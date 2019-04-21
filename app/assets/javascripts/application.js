@@ -28,7 +28,7 @@ $( document ).on('turbolinks:load', function() {
         'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
       },
       url: '/shippings/validate_step',
-      method: 'POST',
+      method: 'GET',
       dataType: 'JSON',
       data: data,
       success: function(response) {
