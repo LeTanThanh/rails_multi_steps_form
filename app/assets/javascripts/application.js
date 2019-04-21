@@ -21,14 +21,7 @@ $( document ).on('turbolinks:load', function() {
   $(document).on('click', '.js-button-next', function() {
     var form = $(this).closest('.js-form-step');
     var stepIndex = $(this).data('stepIndex');
-    var data = {};
-
-    form.find('input').each(function(index) {
-      var name = $(this).attr('name');
-      var val = $(this).val();
-
-      data[name] = val;
-    });
+    var data = $('form').serialize();
 
     $.ajax({
       headers: {
@@ -42,8 +35,12 @@ $( document ).on('turbolinks:load', function() {
         if (response.valid) {
           $('.js-form-step').slideUp();
           $('.js-form-step').eq(stepIndex + 1).slideDown();
-
+          $('input[name="step_index"]').val(stepIndex + 1);
           form.find('.js-error-messages').html("");
+
+          if (stepIndex == 1) {
+            $('.js-form-step').last().html(response.confirmation);
+          }
         } else {
           form.find('.js-error-messages').html(response.error_messages);
         }
@@ -52,8 +49,12 @@ $( document ).on('turbolinks:load', function() {
   });
 
   $(document).on('click', '.js-button-pre', function() {
+    var form = $(this).closest('.js-form-step');
     var stepIndex = $(this).data('stepIndex');
+   
     $('.js-form-step').slideUp();
     $('.js-form-step').eq(stepIndex - 1).slideDown();
+    $('input[name="step_index"]').val(stepIndex - 1);
+    form.find('.js-error-messages').html("");
   });
 });

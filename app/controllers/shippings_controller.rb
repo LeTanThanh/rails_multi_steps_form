@@ -48,7 +48,7 @@ class ShippingsController < ApplicationController
     shipping = Shipping.new shipping_params
     shipping.valid?
 
-    error_attrs = shipping_params.keys.map(&:to_sym).select do |attr|
+    error_attrs = shipping_params_keys.select do |attr|
       shipping.errors[attr].any?
     end
     error_messages = error_attrs.map do |attr|
@@ -62,7 +62,11 @@ class ShippingsController < ApplicationController
           error_messages: render_to_string(
             partial: "shared/error_messages",
             locals: { error_messages: error_messages }
-          )
+          ),
+          confirmation: render_to_string(
+            partial: "shippings/form_steps/confirmation_step",
+            locals: { shipping: shipping }
+          ) 
         }
       end
     end
@@ -79,5 +83,14 @@ class ShippingsController < ApplicationController
 
   def shipping_params
     params.require(:shipping).permit :receiver_name, :receiver_phone, :shipping_address, :shipping_day
+  end
+
+  def shipping_params_keys
+    case params[:step_index]
+    when "0"
+      [:receiver_name, :receiver_phone]
+    when "1"
+      [:shipping_address, :shipping_day]
+    end
   end
 end
